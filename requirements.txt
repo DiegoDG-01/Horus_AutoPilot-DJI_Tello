@@ -1,0 +1,4 @@
+djitellopy == 2.4.0
+opencv-python == 4.6.0.66
+matplotlib == 3.5.3
+pynput == 1.7.6
