@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from os import getcwd
+from time import sleep
 from pathlib import Path
 
 class FaceTracking:
@@ -56,14 +57,12 @@ class FaceTracking:
         PID_Error = position[0][0] - width // 2
 
         speed = int(pid[0] * PID_Error + pid[1] * (PID_Error - pError))
-        speed = np.clip(speed, -100, 100)
+        speed = int(np.clip(speed, -100, 100))
 
-        if speed <= 10:
+        if position[1] == 0:
             self.Coordinates_Pipe.append(0)
         else:
             self.Coordinates_Pipe.append(speed)
-
-        print(speed)
 
         return PID_Error
 
@@ -88,11 +87,8 @@ class FaceTracking:
                 position = self.__face_recognition(frame, height, width)
                 self.pError = self.__face_tracker(position, width, self.pError)
 
-                frame_resized = cv2.resize(frame, (480, 270))
-
-
                 # Show frame
-                cv2.imshow("Frame", frame_resized)
+                cv2.imshow("Frame", frame)
 
                 # Exit
                 if cv2.waitKey(1) & 0xFF == ord("q"):

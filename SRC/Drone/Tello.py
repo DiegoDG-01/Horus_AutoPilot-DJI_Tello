@@ -106,11 +106,18 @@ class TelloAutoPilot:
             while True:
                 if len(self.Coordinates_Pipe) > 0:
                     if -10 < self.Coordinates_Pipe[0] > 10:
-                        print(self.Coordinates_Pipe[0])
-                    else:
-                        print("Center")
+                        self.MyDrone.yaw_velocity = self.Coordinates_Pipe.pop(0)
 
-                    self.Coordinates_Pipe.pop(0)
+                        self.MyDrone.send_rc_control(
+                            self.MyDrone.left_right_velocity,
+                            self.MyDrone.for_back_velocity,
+                            self.MyDrone.up_down_velocity,
+                            self.MyDrone.yaw_velocity
+                        )
+                    else:
+                        self.Coordinates_Pipe.pop(0)
+
+
 
     def __show_canvas(self):
 
